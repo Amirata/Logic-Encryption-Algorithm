@@ -102,6 +102,7 @@ def create_primary_inputs_dictionary(primary_inputs_list, symbolic_flag=True):
     if symbolic_flag:
         primary_inputs_dictionary = {node:
                                      {'Type': 'PI',
+                                      'Inputs_list':'None',
                                       'P1': p1,
                                       'P0': p0,
                                       'VF': vf,
@@ -114,6 +115,7 @@ def create_primary_inputs_dictionary(primary_inputs_list, symbolic_flag=True):
     else:
         primary_inputs_dictionary = {node:
                                      {'Type': 'PI',
+                                      'Inputs_list':'None',
                                       'P1_F': sy.Float(p1),
                                       'P0_F': sy.Float(p0),
                                       'VF_F': sy.Float(vf),
@@ -130,6 +132,7 @@ def create_primary_outputs_dictionary(primary_outputs_list, gates_dictionary, pr
     if symbolic_flag:
         primary_inputs_dictionary = {node:
                                      {'Type': get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'Type')+'(PO)',
+                                      'Inputs_list': get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'Inputs_list'),
                                       'P1': get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'P1'),
                                       'P0': get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'P0'),
                                       'VF': get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'VF'),
@@ -142,6 +145,7 @@ def create_primary_outputs_dictionary(primary_outputs_list, gates_dictionary, pr
     else:
         primary_inputs_dictionary = {node:
                                      {'Type': get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'Type')+'(PO)',
+                                      'Inputs_list': get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'Inputs_list'),
                                       'P1_F': sy.Float(get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'P1_F')),
                                       'P0_F': sy.Float(get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'P0_F')),
                                       'VF_F': sy.Float(get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, 'VF_F')),
@@ -169,6 +173,7 @@ def create_gates_dictionary(gates_list, primary_inputs_dictionary, symbolic_flag
         if symbolic_flag:
             temporary_dictionary = {node: {
                 'Type': gate_type,
+                'Inputs_list': inputs_list,
                 'P1': p1,
                 'P0': p0,
                 'VF': vf,
@@ -180,6 +185,7 @@ def create_gates_dictionary(gates_list, primary_inputs_dictionary, symbolic_flag
         else:
             temporary_dictionary = {node: {
                 'Type': gate_type,
+                'Inputs_list': inputs_list,
                 'P1_F': sy.Float(p1),
                 'P0_F': sy.Float(p0),
                 'VF_F': sy.Float(vf),
@@ -253,10 +259,11 @@ vulnerability_cells_format.set_bg_color(vulnerability_bg_color)
 # Write some data headers.
 row = 1
 col = 0
-headers_data = ('Types','Nodes','Zero Probabilities (P0)','One Probabilities (P1)','Vulnerability Factors (VF)')
+headers_data = ('Types','Nodes','Zero Probabilities (P0)','One Probabilities (P1)','Vulnerability Factors (VF)','Gate Inputs List')
 worksheet.set_column('A1:XFD1048576',30,sheet_format)
+worksheet.set_column('F:F',40,sheet_format)
 worksheet.set_row(0,30)
-worksheet.merge_range('A1:E1', f'Benchmark {file_name} Vulnerability Factor', header_cells_format)
+worksheet.merge_range('A1:F1', f'Benchmark {file_name} Vulnerability Factor', header_cells_format)
 for header_data in headers_data:
     worksheet.set_row(row,20)
     worksheet.write(row,col,header_data,header_cells_format)
@@ -271,7 +278,8 @@ for node in circuit_dictionary:
     worksheet.write(row, col + 1, int(node), cells_format)
     worksheet.write(row, col + 2, circuit_dictionary[node]['P0_F'],cells_format)
     worksheet.write(row, col + 3, circuit_dictionary[node]['P1_F'],cells_format)
-    worksheet.write(row, col + 4, circuit_dictionary[node]['VF_F'],cells_format)    
+    worksheet.write(row, col + 4, circuit_dictionary[node]['VF_F'],cells_format) 
+    worksheet.write(row, col + 5, str(circuit_dictionary[node]['Inputs_list']),cells_format)    
     row += 1
 
 worksheet.conditional_format(f'E2:E{row}', {'type': 'data_bar','bar_color': 

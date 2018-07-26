@@ -1,0 +1,23 @@
+# NOT
+# 2 inputs
+# 1 outputs
+# 3 gates ( 3 NOTs 1 AND )
+
+# I1 => P0 = 1/2 P1 = 1/2
+# I2 => P0 = 1/2 P1 = 1/2
+# AND3 => P0 = 3/4 P1 = 1/4
+# NOT4 => P0 = 1/4 P1 = 3/4
+# NOT5 => P0 = 3/4 P1 = 1/4
+# NOT6 => P0 = 1/4 P1 = 3/4
+
+INPUT(1)
+INPUT(2)
+
+OUTPUT(6)
+
+3 = AND(1, 2)
+4 = NOT(3)
+5 = NOT(4)
+6 = NOT(5)
+
+

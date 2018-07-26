@@ -8,7 +8,7 @@ import re
 #  Reading benchmark file and create circuit dictionary with probabilities and vulnerability factors
 #-----------------------------------------------------------------------------------------------------------------------------------
 
-file_name = 'c17'
+file_name = 'c7552'
 
 # Open benchmark file for read - OK
 with open(f'Inputs/{file_name}.bench') as file:
@@ -22,59 +22,229 @@ def get_dictionary_value(gates_dictionary,primary_inputs_dictionary, node, key):
         return primary_inputs_dictionary[node][key]
 
 # Return one probability of gate - OK
-def compute_one_probability(type, *p1_inputs):
+def compute_one_probability(type, p_inputs_dictionary):
     probability = '1'
-    probability_temp = '1'
     if type == 'AND':
-        for i in p1_inputs:
-            probability = sy.S(f'{probability}*{i}')
+        for i in p_inputs_dictionary:
+            p1 = p_inputs_dictionary[i]['P1']
+            probability = sy.S(f'{probability}*{p1}')
     elif type == 'NAND':
-        for i in p1_inputs:
-            probability = sy.S(f'{probability}*{i}')
+        for i in p_inputs_dictionary:
+            p1 = p_inputs_dictionary[i]['P1']
+            probability = sy.S(f'{probability}*{p1}')
         probability = sy.S(f'1-{probability}')
     elif type == 'OR':
-        for i in p1_inputs:
-            probability = sy.S(f'{probability}*(1-{i})')
+        for i in p_inputs_dictionary:
+            p0 = p_inputs_dictionary[i]['P0']
+            probability = sy.S(f'{probability}*{p0}')
         probability = sy.S(f'1-{probability}')
     elif type == 'NOR':
-        for i in p1_inputs:
-            probability = sy.S(f'{probability}*(1-{i})')
+        for i in p_inputs_dictionary:
+            p0 = p_inputs_dictionary[i]['P0']
+            probability = sy.S(f'{probability}*{p0}')
     elif type == 'XOR':
-        for i in p1_inputs:
-            probability = sy.S(f'{probability}*{i}')
-        for i in p1_inputs:
-            probability_temp = sy.S(f'{probability_temp}*(1-{i})')
-        probability = sy.S(f'1-({probability}+{probability_temp})')
+        probability = 0
+        probability_temp = '1'
+        temp_list_one = []
+        temp_list_two = []
+        k = 0
+        power = len(p_inputs_dictionary)
+        for i in range(2**power):
+            binary_string = '{0:0{1}b}'.format(i,power)
+            temp_list_one.append(list(binary_string))
+        for i in temp_list_one:
+            if i.count('1') % 2 == 0:
+                temp_list_two.append(i)
+        for i in temp_list_two:
+            temp_list_one.remove(i)
+        for i in temp_list_one:
+            for j in p_inputs_dictionary:
+                p = p_inputs_dictionary[j][f'P{i[k]}']
+                probability_temp = sy.S(f'{probability_temp}*{p}')
+                k+=1
+            k = 0
+            probability += probability_temp
+            probability_temp = 1
     elif type == 'XNOR':
-        for i in p1_inputs:
-            probability = sy.S(f'{probability}*{i}')
-        for i in p1_inputs:
-            probability_temp = sy.S(f'{probability_temp}*(1-{i})')
-        probability = sy.S(f'{probability}+{probability_temp}')
+        probability = 0
+        probability_temp = '1'
+        temp_list_one = []
+        temp_list_two = []
+        k = 0
+        power = len(p_inputs_dictionary)
+        for i in range(2**power):
+            binary_string = '{0:0{1}b}'.format(i,power)
+            temp_list_one.append(list(binary_string))
+        for i in temp_list_one:
+            if i.count('1') % 2 != 0:
+                temp_list_two.append(i)
+        for i in temp_list_two:
+            temp_list_one.remove(i)
+        for i in temp_list_one:
+            for j in p_inputs_dictionary:
+                p = p_inputs_dictionary[j][f'P{i[k]}']
+                probability_temp = sy.S(f'{probability_temp}*{p}')
+                k+=1
+            k = 0
+            probability += probability_temp
+            probability_temp = 1
     elif type == 'NOT':
-        for i in p1_inputs:
-            probability = sy.S(f'1-({probability}*{i})')
+        for i in p_inputs_dictionary:
+            p0 = p_inputs_dictionary[i]['P0']
+            probability = sy.S(f'{probability}*{p0}')
     elif type == 'BUFF':
-        for i in p1_inputs:
-            probability = sy.S(f'{probability}*{i}')
+        for i in p_inputs_dictionary:
+            p1 = p_inputs_dictionary[i]['P1']
+            probability = sy.S(f'{probability}*{p1}')
+    elif type == 'KAND':
+        probability = 0
+        probability_temp = '1'
+        temp_list_one = []
+        temp_list_two = []
+        k = 0
+        power = len(p_inputs_dictionary)
+        for i in range(int((2**power)/2),(2**power)-1):
+            binary_string = '{0:0{1}b}'.format(i,power)
+            temp_list_one.append(list(binary_string))
+        for i in temp_list_one:
+            for j in p_inputs_dictionary:
+                p = p_inputs_dictionary[j][f'P{i[k]}']
+                probability_temp = sy.S(f'{probability_temp}*{p}')
+                k+=1
+            k = 0
+            probability += probability_temp
+            probability_temp = 1
+        probability = 1 - probability
+    elif type == 'KNAND':
+        probability = 0
+        probability_temp = '1'
+        temp_list_one = []
+        temp_list_two = []
+        k = 0
+        power = len(p_inputs_dictionary)
+        for i in range(0,int((2**power)/2)-1):
+            binary_string = '{0:0{1}b}'.format(i,power)
+            temp_list_one.append(list(binary_string))
+        for i in temp_list_one:
+            for j in p_inputs_dictionary:
+                p = p_inputs_dictionary[j][f'P{i[k]}']
+                probability_temp = sy.S(f'{probability_temp}*{p}')
+                k+=1
+            k = 0
+            probability += probability_temp
+            probability_temp = 1
+    elif type == 'KOR':
+        probability = 0
+        probability_temp = '1'
+        temp_list_one = []
+        temp_list_two = []
+        k = 0
+        power = len(p_inputs_dictionary)
+        for i in range(1,int((2**power)/2)):
+            binary_string = '{0:0{1}b}'.format(i,power)
+            temp_list_one.append(list(binary_string))
+        for i in temp_list_one:
+            for j in p_inputs_dictionary:
+                p = p_inputs_dictionary[j][f'P{i[k]}']
+                probability_temp = sy.S(f'{probability_temp}*{p}')
+                k+=1
+            k = 0
+            probability += probability_temp
+            probability_temp = 1
+    elif type == 'KNOR':
+        probability = 0
+        probability_temp = '1'
+        temp_list_one = []
+        temp_list_two = []
+        k = 0
+        power = len(p_inputs_dictionary)
+        for i in range(int((2**power)/2)+1,2**power):
+            binary_string = '{0:0{1}b}'.format(i,power)
+            temp_list_one.append(list(binary_string))
+        for i in temp_list_one:
+            for j in p_inputs_dictionary:
+                p = p_inputs_dictionary[j][f'P{i[k]}']
+                probability_temp = sy.S(f'{probability_temp}*{p}')
+                k+=1
+            k = 0
+            probability += probability_temp
+            probability_temp = 1
+        probability = 1 - probability
+    elif type == 'KXOR':
+        probability = 0
+        probability_temp = '1'
+        temp_list_one = []
+        temp_list_two = []
+        k = 0
+        power = len(p_inputs_dictionary)
+        for i in range(2**power):
+            binary_string = '{0:0{1}b}'.format(i,power)
+            temp_list_one.append(list(binary_string))
+        for i in temp_list_one:
+            if i.count('1') % 2 == 0:
+                temp_list_two.append(i)
+        for i in temp_list_two:
+            temp_list_one.remove(i)
+        for i in temp_list_one:
+            for j in p_inputs_dictionary:
+                p = p_inputs_dictionary[j][f'P{i[k]}']
+                probability_temp = sy.S(f'{probability_temp}*{p}')
+                k+=1
+            k = 0
+            probability += probability_temp
+            probability_temp = 1
+    elif type == 'KNOTO':
+        for i in p_inputs_dictionary:
+            p1 = p_inputs_dictionary[i]['P1']
+            probability = sy.S(f'{probability}*{p1}')
+        probability = 1 - probability
+    elif type == 'KNOTZ':
+        for i in p_inputs_dictionary:
+            p1 = p_inputs_dictionary[i]['P0']
+            probability = sy.S(f'{probability}*{p1}')
     return probability
 
 # Return inputs of each gates one probabilitiy (ex. 12 = AND(2 ,3) for input 2,3) - OK
-def extract_inputs_one_probability(gates_dictionary, primary_inputs_dictionary, nodes, symbolic_flag):
-    p1_list = []
+def extract_inputs_probability(gates_dictionary, primary_inputs_dictionary, nodes, symbolic_flag):
+    p_dic = {}
+    p_inputs_dictionary = {}
     if symbolic_flag:
         for node in nodes:
             if node in primary_inputs_dictionary:
-                p1_list.append(primary_inputs_dictionary[node]['P1'])
+                p_dic = {node:
+                            {
+                             'P1': primary_inputs_dictionary[node]['P1'],
+                             'P0': primary_inputs_dictionary[node]['P0']
+                            }
+                        }
+                p_inputs_dictionary.update(p_dic)
             else:
-                p1_list.append(gates_dictionary[node]['P1'])
+                p_dic = {node:
+                            {
+                             'P1': gates_dictionary[node]['P1'],
+                             'P0': gates_dictionary[node]['P0']
+                            }
+                        }
+                p_inputs_dictionary.update(p_dic)
     else:
         for node in nodes:
             if node in primary_inputs_dictionary:
-                p1_list.append(primary_inputs_dictionary[node]['P1_F'])
+                p_dic = {node:
+                            {
+                             'P1': primary_inputs_dictionary[node]['P1_F'],
+                             'P0': primary_inputs_dictionary[node]['P0_F']
+                            }
+                        }
+                p_inputs_dictionary.update(p_dic)
             else:
-                p1_list.append(gates_dictionary[node]['P1_F'])
-    return p1_list
+                p_dic = {node:
+                            {
+                             'P1': gates_dictionary[node]['P1_F'],
+                             'P0': gates_dictionary[node]['P0_F']
+                            }
+                        }
+                p_inputs_dictionary.update(p_dic)
+    return p_inputs_dictionary
 
 # Returns all instances of primary input pattern in a list - OK
 def extract_all_primary_inputs(benchmark_file):
@@ -165,9 +335,9 @@ def create_gates_dictionary(gates_list, primary_inputs_dictionary, symbolic_flag
         inputs_list = number_pattern.findall(item)
         del inputs_list[0]
         gate_type = type_pattern.search(item).group()
-        p1_inputs = extract_inputs_one_probability(
+        p_inputs_dictionary = extract_inputs_probability(
             gates_dictionary, primary_inputs_dictionary, inputs_list, symbolic_flag)
-        p1 = compute_one_probability(gate_type, *p1_inputs)
+        p1 = compute_one_probability(gate_type, p_inputs_dictionary)
         p0 = sy.S(f'1-{p1}')
         vf = sy.S(f'(1-{p1})-{p1}')
         if symbolic_flag:

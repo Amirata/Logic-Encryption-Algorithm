@@ -1,0 +1,23 @@
+# KAND
+# 5 inputs
+# 1 outputs
+# 2 gates ( 1 AND 1 KAND )
+
+# I1 => P0 = 1/2 P1 = 1/2
+# I2 => P0 = 1/2 P1 = 1/2
+# I4 => P0 = 1/2 P1 = 1/2
+# I5 => P0 = 1/2 P1 = 1/2
+# AND6 => P0 = 3/4 P1 = 1/4
+# KAND7 => P0 = 15/32 P1 = 17/32
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+INPUT(4)
+INPUT(5)
+
+OUTPUT(7)
+
+6 = AND(1, 2)
+7 = KAND(3, 6, 4, 5)
+

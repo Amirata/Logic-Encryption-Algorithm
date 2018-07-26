@@ -1,0 +1,23 @@
+# KXOR
+# 5 inputs
+# 1 outputs
+# 2 gates ( 1 AND 1 KXOR )
+
+# I1 => P0 = 1/2 P1 = 1/2
+# I2 => P0 = 1/2 P1 = 1/2
+# I4 => P0 = 1/2 P1 = 1/2
+# I5 => P0 = 1/2 P1 = 1/2
+# AND6 => P0 = 3/4 P1 = 1/4
+# KXOR7 => P0 = 1/2 P1 = 1/2
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+INPUT(4)
+INPUT(5)
+
+OUTPUT(7)
+
+6 = AND(1, 2)
+7 = KXOR(3, 6, 4, 5)
+

@@ -1,0 +1,30 @@
+# NAND
+# 6 inputs
+# 1 outputs
+# 4 gates ( 4 NANDs )
+
+# I1 => P0 = 1/2 P1 = 1/2
+# I2 => P0 = 1/2 P1 = 1/2
+# I4 => P0 = 1/2 P1 = 1/2
+# I5 => P0 = 1/2 P1 = 1/2
+# I8 => P0 = 1/2 P1 = 1/2
+# I9 => P0 = 1/2 P1 = 1/2
+# NAND3 => P0 = 1/4 P1 = 3/4
+# NAND6 => P0 = 1/4 P1 = 3/4
+# NAND7 => P0 = 1/4 P1 = 3/4
+# NAND10 => P0 = 27/64 P1 = 37/64
+
+INPUT(1)
+INPUT(2)
+INPUT(4)
+INPUT(5)
+INPUT(8)
+INPUT(9)
+
+OUTPUT(10)
+
+3 = NAND(1, 2)
+6 = NAND(4, 5)
+7 = NAND(8, 9)
+10 = NAND(6, 3, 7)
+

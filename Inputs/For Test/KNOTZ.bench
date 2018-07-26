@@ -1,0 +1,20 @@
+# KNOTZ
+# 3 inputs
+# 1 outputs
+# 2 gates ( 1 AND 1 KNOTZ )
+
+# I1 => P0 = 1/2 P1 = 1/2
+# I2 => P0 = 1/2 P1 = 1/2
+# AND4 => P0 = 3/4 P1 = 1/4
+# KNOTZ5 => P0 = 5/8 P1 = 3/8
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+
+
+OUTPUT(5)
+
+4 = AND(1, 2)
+5 = KNOTZ(3, 4)
+

@@ -1,0 +1,30 @@
+# XOR
+# 6 inputs
+# 1 outputs
+# 4 gates ( 4 XORs )
+
+# I1 => P0 = 1/2 P1 = 1/2
+# I2 => P0 = 1/2 P1 = 1/2
+# I4 => P0 = 1/2 P1 = 1/2
+# I5 => P0 = 1/2 P1 = 1/2
+# I8 => P0 = 1/2 P1 = 1/2
+# I9 => P0 = 1/2 P1 = 1/2
+# XOR3 => P0 = 1/2 P1 = 1/2
+# XOR6 => P0 = 1/2 P1 = 1/2
+# XOR7 => P0 = 1/2 P1 = 1/2
+# XOR10 => P0 = 1/2 P1 = 1/2
+
+INPUT(1)
+INPUT(2)
+INPUT(4)
+INPUT(5)
+INPUT(8)
+INPUT(9)
+
+OUTPUT(10)
+
+3 = XOR(1, 2)
+6 = XOR(4, 5)
+7 = XOR(8, 9)
+10 = XOR(6, 3, 7)
+

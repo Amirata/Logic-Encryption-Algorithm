@@ -1,0 +1,30 @@
+# XNOR
+# 6 inputs
+# 1 outputs
+# 4 gates ( 4 XNORs )
+
+# I1 => P0 = 1/2 P1 = 1/2
+# I2 => P0 = 1/2 P1 = 1/2
+# I4 => P0 = 1/2 P1 = 1/2
+# I5 => P0 = 1/2 P1 = 1/2
+# I8 => P0 = 1/2 P1 = 1/2
+# I9 => P0 = 1/2 P1 = 1/2
+# XNOR3 => P0 = 1/2 P1 = 1/2
+# XNOR6 => P0 = 1/2 P1 = 1/2
+# XNOR7 => P0 = 1/2 P1 = 1/2
+# XNOR10 => P0 = 1/2 P1 = 1/2
+
+INPUT(1)
+INPUT(2)
+INPUT(4)
+INPUT(5)
+INPUT(8)
+INPUT(9)
+
+OUTPUT(10)
+
+3 = XNOR(1, 2)
+6 = XNOR(4, 5)
+7 = XNOR(8, 9)
+10 = XNOR(6, 3, 7)
+

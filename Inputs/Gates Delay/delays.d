@@ -1,0 +1,33 @@
+# For Two Input Gates Use only Name Ex. AND
+# For More Than Two Input Use Name Then Number Of Inputs Ex. AND3
+
+AND = 19.8
+OR = 22.6
+NOT = 5.035
+NAND = 8.95
+NOR = 10.23
+XOR = 27.8
+XNOR = 27.65
+KNOT = 7.58
+KAND = 23.15
+KOR = 25.4
+KNAND = 12.97
+KNOR = 13.9
+KXOR = 46.75
+KXNOR = 47.05
+BUFF = 10.07
+AND9 = 19.8
+NAND4 = 8.95
+AND8 = 19.8
+NAND3 = 8.95
+AND4 = 19.8
+OR4 = 22.6
+AND5 = 19.8
+AND3 = 19.8
+NAND8 = 8.95
+NAND5 = 8.95
+OR3 = 22.6
+OR5 = 22.6 
+NOR3 = 10.23
+NOR8 = 10.23
+NOR4 = 10.23

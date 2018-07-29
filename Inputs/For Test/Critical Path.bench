@@ -1,0 +1,58 @@
+# Critical Path
+# 14 inputs
+# 1 outputs
+# 11 gates ( 10 ANDs  1 OR )
+
+# Critical Path =>{{'25': {'Type': 'AND(PO)', 'Node_type_delay': 19.8000000000000},
+#                   '24': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '20': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '12': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '11': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '19': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '10': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '9': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '23': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '18': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '8': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '7': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '17': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '6': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '5': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '22': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '16': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '4': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '3': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '15': {'Type': 'AND', 'Node_type_delay': 19.8000000000000},
+#                   '2': {'Type': 'PI', 'Node_type_delay': 0},
+#                   '1': {'Type': 'PI', 'Node_type_delay': 0}}
+
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+INPUT(4)
+INPUT(5)
+INPUT(6)
+INPUT(7)
+INPUT(8)
+INPUT(9)
+INPUT(10)
+INPUT(11)
+INPUT(12)
+INPUT(13)
+INPUT(14)
+
+OUTPUT(25)
+
+15 = AND(1, 2)
+16 = AND(3, 4)
+17 = AND(5, 6)
+18 = AND(7, 8)
+19 = AND(9, 10)
+20 = AND(11, 12)
+21 = OR(13, 14)
+22 = AND(15, 16)
+23 = AND(17, 18)
+24 = AND(19, 20)
+25 = AND(22, 23, 24, 21)
+

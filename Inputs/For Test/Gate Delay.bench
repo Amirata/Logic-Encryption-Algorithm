@@ -1,0 +1,40 @@
+# Gate Delay
+# 6 inputs
+# 1 outputs
+# 7 gates ( 2 ANDs 1 OR 2 NOTs 2 XORs)
+
+# I1 => delay = 0
+# I2 => delay = 0
+# I3 => delay = 0
+# I4 => delay = 0
+# I5 => delay = 0
+# I6 => delay = 0
+# AND7 => delay = 19.8
+# NOT8 => delay = 5.035
+# OR9 => delay = 42.4
+# XOR10 => delay = 32.835
+# NOT11 => delay = 47.435
+# XOR12 => delay = 60.635
+# AND13 => delay = 80.435
+
+
+INPUT(1)
+INPUT(2)
+INPUT(3)
+INPUT(4)
+INPUT(5)
+INPUT(6)
+
+OUTPUT(13)
+
+7 = AND(1, 2)
+8 = NOT(6)
+9 = OR(3, 7)
+10 = XOR(5, 8)
+11 = NOT(9)
+12 = XOR(4, 10)
+13 = AND(11, 12)
+
+
+
+

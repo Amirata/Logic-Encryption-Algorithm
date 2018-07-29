@@ -1,3 +1,4 @@
 Outputs/*.xlsx
 Inputs/c3.bench
+Inputs/my*.bench
 Test.py
